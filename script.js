@@ -1,33 +1,64 @@
 
+var StarsFrame = React.createClass({
+  render: function() {
+    return (
+      <div>
+        ....
+      </div>
+    )
+  }
+});
 
-// var Main = React.createClass({
+var ButtonFrame = React.createClass({
+  render: function() {
+    return (
+      <div>
+        ....
+      </div>
+    )
+  }
+});
+
+var AnswerFrame = React.createClass({
+  render: function() {
+    return (
+      <div>
+        ....
+      </div>
+    )
+  }
+});
+
+var Game = React.createClass({
   
-//   getInitialState: function() {
-//     return { logins: ['zpao', 'fisherwebdev' ] };
-//   },
+  // getInitialState: function() {
+  //   return { logins: ['zpao', 'fisherwebdev' ] };
+  // },
 
-//   addCard: function( loginToAdd ) {
-//     this.setState( { logins: this.state.logins.concat(loginToAdd) });
-//   },
+  // addCard: function( loginToAdd ) {
+  //   this.setState( { logins: this.state.logins.concat(loginToAdd) });
+  // },
 
-//   render: function() {
-//     var cards = this.state.logins.map( function(login){
-//       return <Card login={login} />
-//     });
-
-//     return (
-//       <div>
-//       <Form addCard={this.addCard} />
-//         { cards }
-//       </div>
-//     )
-//   }
-// });
+  render: function() {
+   
+    return (
+      <div>
+        <h2>Play nine</h2>
+        <StarsFrame/>
+      </div>
+    )
+  }
+});
 
 
 // ReactDOM.render( <Main />, document.getElementById("root") );
 
 ReactDOM.render(
-  <h1>Hello</h1>,
+  <div>
+    <Game/>
+    <StarsFrame/>
+    <ButtonFrame/>
+    <AnswerFrame/>
+  </div>,
   document.getElementById("container")
 );
