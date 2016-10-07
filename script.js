@@ -2,8 +2,14 @@
 var StarsFrame = React.createClass({
   render: function() {
     return (
-      <div>
-        ....
+      <div id="stars-frame">
+        <div className="well">
+          <span className="glyphicon glyphicon-star"></span> 
+          <span className="glyphicon glyphicon-star"></span> 
+          <span className="glyphicon glyphicon-star"></span> 
+          <span className="glyphicon glyphicon-star"></span> 
+          <span className="glyphicon glyphicon-star"></span> 
+        </div>
       </div>
     )
   }
@@ -12,8 +18,8 @@ var StarsFrame = React.createClass({
 var ButtonFrame = React.createClass({
   render: function() {
     return (
-      <div>
-        ....
+      <div id="button-frame">
+        <button className="btn btn-primary btn-lg">=</button>
       </div>
     )
   }
@@ -22,8 +28,10 @@ var ButtonFrame = React.createClass({
 var AnswerFrame = React.createClass({
   render: function() {
     return (
-      <div>
-        ....
+      <div id="answer-frame">
+        <div className="well">
+          ....
+        </div>
       </div>
     )
   }
@@ -43,22 +51,19 @@ var Game = React.createClass({
    
     return (
       <div>
+        <hr/>
         <h2>Play nine</h2>
-        <StarsFrame/>
+        <div className="clearfix">
+          <StarsFrame/>
+          <ButtonFrame/>
+          <AnswerFrame/>
+        </div>
       </div>
     )
   }
 });
 
-
-// ReactDOM.render( <Main />, document.getElementById("root") );
-
 ReactDOM.render(
-  <div>
-    <Game/>
-    <StarsFrame/>
-    <ButtonFrame/>
-    <AnswerFrame/>
-  </div>,
+  <Game />,
   document.getElementById("container")
 );
