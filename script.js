@@ -1,10 +1,9 @@
 
 var StarsFrame = React.createClass({
   render: function() {
-    var numberOfStars = Math.floor( Math.random( ) * 9 ) + 1;
 
     var stars = [];
-    for (var i =0; i < numberOfStars; i++){
+    for (var i =0; i < this.props.numberOfStars; i++){
       stars.push( 
           <span className="glyphicon glyphicon-star"></span> 
         )
@@ -31,9 +30,11 @@ var ButtonFrame = React.createClass({
 
 var AnswerFrame = React.createClass({
   render: function() {
-    var selectedNumbers = this.props.selectedNumbers.map( function(i){ 
+    var props = this.props;
+    var selectedNumbers = props.selectedNumbers.map( function(i){ 
       return (
-        <span>{i}</span>
+        <span onClick={ props.unselectNumber.bind(null, i) }> {i} </span>
+        // <span> {i} </span>
       )
     });
 
@@ -54,8 +55,8 @@ var NumbersFrame = React.createClass({
     for (var i =1; i <= 9; i++){
       className = "numbers selected-" + ( this.props.selectedNumbers.indexOf(i) >= 0 )
       numbers.push( 
-          <div className={className} onClick={ this.props.clickNumber.bind(null, i)} >{ i }</div>
-        )
+          <div className={className} onClick={ this.props.selectNumber.bind(null, i)} >{ i }</div>
+        );
     }
 
     return (
@@ -72,11 +73,19 @@ var NumbersFrame = React.createClass({
 var Game = React.createClass({
   getInitialState: function() {
     return { 
+      numberOfStars: Math.floor( Math.random( ) * 9 ) + 1,
       selectedNumbers: [ ]
     };
   },
 
-  clickNumber: function( clickedNumber ) {
+  unselectNumber: function( clickedNumber ) {
+    var numberIndex = this.state.selectedNumbers.indexOf( clickedNumber );
+    this.state.selectedNumbers.splice( numberIndex, 1);
+    this.setState( {selectedNumbers: this.state.selectedNumbers });
+  },  
+
+
+  selectNumber: function( clickedNumber ) {
     if ( this.state.selectedNumbers.indexOf(clickedNumber) < 0 ) {
       this.setState(
         {
@@ -92,13 +101,16 @@ var Game = React.createClass({
         <hr/>
         <h2>Play nine</h2>
         <div className="clearfix">
-          <StarsFrame/>
+          <StarsFrame numberOfStars={this.state.numberOfStars}/>
           <ButtonFrame/>
-          <AnswerFrame selectedNumbers={ this.state.selectedNumbers } />
+          <AnswerFrame 
+            selectedNumbers={ this.state.selectedNumbers } 
+            unselectNumber={ this.unselectNumber }
+          />
         </div>
         <NumbersFrame  
           selectedNumbers={ this.state.selectedNumbers } 
-          clickNumber={ this.clickNumber }
+          selectNumber={ this.selectNumber }
         />
       </div>
     )
