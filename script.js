@@ -41,18 +41,33 @@ var AnswerFrame = React.createClass({
   }
 });
 
-var Game = React.createClass({
-  
-  // getInitialState: function() {
-  //   return { logins: ['zpao', 'fisherwebdev' ] };
-  // },
+var NumbersFrame = React.createClass({
 
-  // addCard: function( loginToAdd ) {
-  //   this.setState( { logins: this.state.logins.concat(loginToAdd) });
-  // },
+
 
   render: function() {
-   
+
+    var numbers = [];
+    for (var i =1; i <= 9; i++){
+      numbers.push( 
+          <div className="number">{ i }</div>
+        )
+    }
+
+    return (
+      <div id="numbers-frame">
+        <div className="well">
+          { numbers }
+        </div>
+      </div>
+    )
+  }
+});
+
+
+var Game = React.createClass({
+
+  render: function() {
     return (
       <div>
         <hr/>
@@ -62,6 +77,7 @@ var Game = React.createClass({
           <ButtonFrame/>
           <AnswerFrame/>
         </div>
+        <NumbersFrame/>
       </div>
     )
   }
