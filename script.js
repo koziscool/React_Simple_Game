@@ -20,10 +20,36 @@ var StarsFrame = React.createClass({
 
 var ButtonFrame = React.createClass({
   render: function() {
+
+    var disabled = (this.props.selectedNumbers.length === 0),
+            correct = this.props.correct,
+            button;
+
+    switch( correct ){
+      case true:
+        button = (
+          <button className="btn btn-success btn-lg">
+            <span className="glyphicon glyphicon-ok"></span> 
+          </button>
+        );
+        break;
+      case false:
+        button = (
+          <button className="btn btn-danger btn-lg">
+            <span className="glyphicon glyphicon-remove"></span> 
+          </button>
+        );
+        break;
+      default:
+          button = (
+            <button className="btn btn-primary btn-lg" disabled={disabled} onClick={this.props.checkAnswer}>
+              =
+            </button>
+          );
+    }
+
     return (
-      <div id="button-frame">
-        <button className="btn btn-primary btn-lg">=</button>
-      </div>
+      <div id="button-frame"> {button } </div>
     )
   }
 });
@@ -74,7 +100,8 @@ var Game = React.createClass({
   getInitialState: function() {
     return { 
       numberOfStars: Math.floor( Math.random( ) * 9 ) + 1,
-      selectedNumbers: [ ]
+      selectedNumbers: [ ],
+      correct: null
     };
   },
 
@@ -83,7 +110,6 @@ var Game = React.createClass({
     this.state.selectedNumbers.splice( numberIndex, 1);
     this.setState( {selectedNumbers: this.state.selectedNumbers });
   },  
-
 
   selectNumber: function( clickedNumber ) {
     if ( this.state.selectedNumbers.indexOf(clickedNumber) < 0 ) {
@@ -95,21 +121,42 @@ var Game = React.createClass({
     }
   },  
 
+  sumOfSelectedNumbers: function(){
+    return this.state.selectedNumbers.reduce( function(p, n){
+      return p+n;
+    }, 0);
+  },
+
+  checkAnswer: function(){
+    console.log('tetris')
+    var correct = (this.state.numberOfStars === this.sumOfSelectedNumbers() );
+    this.setState({ correct: correct });
+  },
+
   render: function() {
+    var selectedNumbers = this.state.selectedNumbers,
+            numberOfStars = this.state.numberOfStars,
+            correct = this.state.correct;
+
     return (
       <div>
         <hr/>
         <h2>Play nine</h2>
         <div className="clearfix">
-          <StarsFrame numberOfStars={this.state.numberOfStars}/>
-          <ButtonFrame/>
+          <StarsFrame numberOfStars={numberOfStars}/>
+          <ButtonFrame 
+            selectedNumbers={selectedNumbers}
+            correct={ correct}
+            checkAnswer={ this.checkAnswer }
+
+          />
           <AnswerFrame 
-            selectedNumbers={ this.state.selectedNumbers } 
+            selectedNumbers={ selectedNumbers } 
             unselectNumber={ this.unselectNumber }
           />
         </div>
         <NumbersFrame  
-          selectedNumbers={ this.state.selectedNumbers } 
+          selectedNumbers={ selectedNumbers } 
           selectNumber={ this.selectNumber }
         />
       </div>
